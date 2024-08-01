@@ -1,0 +1,7 @@
+package com.lucasmoraist.task_list.repository;
+
+import com.lucasmoraist.task_list.model.Task;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface TaskRepository extends JpaRepository<Task, Long> {
+}
