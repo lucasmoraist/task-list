@@ -1,6 +1,7 @@
 package com.lucasmoraist.task_list.service;
 
 import com.lucasmoraist.task_list.dto.TaskResponse;
+import com.lucasmoraist.task_list.exceptions.TaskNotFound;
 import com.lucasmoraist.task_list.model.Task;
 import com.lucasmoraist.task_list.dto.TaskRequest;
 import com.lucasmoraist.task_list.repository.TaskRepository;
@@ -29,7 +30,7 @@ public class TaskService {
 
     public Task findTask(Long id){
         return this.repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Task not found"));
+                .orElseThrow(TaskNotFound::new);
     }
 
     public TaskResponse updateTitleTask(Long id, TaskRequest request){
