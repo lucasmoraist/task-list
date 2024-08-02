@@ -10,18 +10,25 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class TaskService {
 
     private final TaskRepository repository;
+    private final EmailService emailService;
 
-    public TaskService(TaskRepository repository) {
+    public TaskService(TaskRepository repository, EmailService emailService) {
+        this.emailService = emailService;
         this.repository = repository;
     }
 
     public TaskResponse create(TaskRequest request){
         Task task = new Task(request);
         this.repository.save(task);
+
+        this.emailService.sendEmailToCreatingTask(task.getTitle(), task.getDescription(), task.getStatus(), task.getCreatedAt());
+
         return new TaskResponse(task.getId());
     }
 
@@ -42,6 +49,8 @@ public class TaskService {
         Task task = this.findTask(id);
         task.setTitle(request.title());
         this.repository.save(task);
+
+        this.emailService.sendEmailToUpdatingTask(task.getTitle(), task.getDescription(), task.getStatus(), task.getUpdatedAt());
         return new TaskResponse(task.getId());
     }
 
@@ -49,11 +58,24 @@ public class TaskService {
         Task task = this.findTask(id);
         task.setDescription(request.description());
         this.repository.save(task);
+
+        this.emailService.sendEmailToUpdatingTask(task.getTitle(), task.getDescription(), task.getStatus(), task.getUpdatedAt());
         return new TaskResponse(task.getId());
+    }
+
+    public TaskResponse updateStatusTask(Long id, Task task){
+        Task taskToUpdate = this.findTask(id);
+        taskToUpdate.setStatus(task.getStatus());
+        this.repository.save(taskToUpdate);
+
+        this.emailService.sendEmailToUpdatingTask(taskToUpdate.getTitle(), taskToUpdate.getDescription(), taskToUpdate.getStatus(), taskToUpdate.getUpdatedAt());
+        return new TaskResponse(taskToUpdate.getId());
+
     }
 
     public void deleteTask(Long id){
         Task task = this.findTask(id);
+        this.emailService.sendEmailToDeletingTask(task.getTitle(), task.getDescription(), task.getStatus(), LocalDateTime.now());
         this.repository.delete(task);
     }
 
