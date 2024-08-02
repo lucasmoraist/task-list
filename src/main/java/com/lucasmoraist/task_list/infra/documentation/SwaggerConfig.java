@@ -32,9 +32,9 @@ public class SwaggerConfig {
 
     private License license(){
         return new License()
-                .name("MIT")
-                .identifier("")
-                .url("")
+                .name("MIT License")
+                .identifier("MIT")
+                .url("https://github.com/lucasmoraist/task-list/blob/main/LICENSE")
                 ;
     }
 }
