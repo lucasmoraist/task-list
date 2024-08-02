@@ -2,7 +2,7 @@ package com.lucasmoraist.task_list.model;
 
 import com.lucasmoraist.task_list.controller.task.GetTaskController;
 import com.lucasmoraist.task_list.controller.task.ListTaskController;
-import com.lucasmoraist.task_list.dto.TaskRequest;
+import com.lucasmoraist.task_list.model.dto.TaskRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,6 +29,7 @@ public class Task {
     private String title;
     @Column(nullable = false, length = 1000)
     private String description;
+    @Enumerated(EnumType.STRING)
     private StatusType status;
 
     @CreationTimestamp
