@@ -1,5 +1,6 @@
 package com.lucasmoraist.task_list.service;
 
+import com.lucasmoraist.task_list.model.StatusType;
 import com.lucasmoraist.task_list.model.dto.TaskResponse;
 import com.lucasmoraist.task_list.exceptions.TaskNotFound;
 import com.lucasmoraist.task_list.model.Task;
@@ -32,12 +33,12 @@ public class TaskService {
         return new TaskResponse(task.getId());
     }
 
-    public Page<EntityModel<Task>> listTask(String title, Pageable pageable){
-        Page<Task> titles = (title == null)?
+    public Page<EntityModel<Task>> listTask(StatusType status, Pageable pageable){
+        Page<Task> statu = (status == null)?
                 this.repository.findAll(pageable):
-                this.repository.findByTitleContaining(title, pageable);
+                this.repository.findByTitleContaining(status, pageable);
 
-        return titles.map(Task::toEntityModel);
+        return statu.map(Task::toEntityModel);
     }
 
     public Task findTask(Long id){
