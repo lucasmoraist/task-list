@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -30,6 +31,9 @@ public class Task {
     private String description;
     @Enumerated(EnumType.STRING)
     private StatusType status;
+
+    @OneToMany(mappedBy = "task")
+    private List<Comment> comment;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
