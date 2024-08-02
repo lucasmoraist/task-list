@@ -1,9 +1,9 @@
 package com.lucasmoraist.task_list.service;
 
-import com.lucasmoraist.task_list.dto.TaskResponse;
+import com.lucasmoraist.task_list.model.dto.TaskResponse;
 import com.lucasmoraist.task_list.exceptions.TaskNotFound;
 import com.lucasmoraist.task_list.model.Task;
-import com.lucasmoraist.task_list.dto.TaskRequest;
+import com.lucasmoraist.task_list.model.dto.TaskRequest;
 import com.lucasmoraist.task_list.repository.TaskRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
