@@ -5,9 +5,10 @@ import com.lucasmoraist.task_list.exceptions.TaskNotFound;
 import com.lucasmoraist.task_list.model.Task;
 import com.lucasmoraist.task_list.dto.TaskRequest;
 import com.lucasmoraist.task_list.repository.TaskRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class TaskService {
@@ -24,8 +25,12 @@ public class TaskService {
         return new TaskResponse(task.getId());
     }
 
-    public List<Task> listTask(){
-        return this.repository.findAll();
+    public Page<EntityModel<Task>> listTask(String title, Pageable pageable){
+        Page<Task> titles = (title == null)?
+                this.repository.findAll(pageable):
+                this.repository.findByTitleContaining(title, pageable);
+
+        return titles.map(Task::toEntityModel);
     }
 
     public Task findTask(Long id){
