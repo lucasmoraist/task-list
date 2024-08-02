@@ -1,5 +1,7 @@
 package com.lucasmoraist.task_list.model;
 
+import com.lucasmoraist.task_list.controller.task.GetTaskController;
+import com.lucasmoraist.task_list.controller.task.ListTaskController;
 import com.lucasmoraist.task_list.dto.TaskRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,8 +9,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.EntityModel;
 
 import java.time.LocalDateTime;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @Data
 @AllArgsConstructor
@@ -34,5 +40,12 @@ public class Task {
         this.title = request.title();
         this.description = request.description();
         this.status = StatusType.PENDING;
+    }
+
+    public EntityModel<Task> toEntityModel(){
+        return EntityModel.of(
+                this,
+                linkTo(methodOn(ListTaskController.class).listTask(null, Pageable.unpaged())).withRel("all")
+                );
     }
 }
