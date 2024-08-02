@@ -1,5 +1,6 @@
 package com.lucasmoraist.task_list.controller.task;
 
+import com.lucasmoraist.task_list.model.StatusType;
 import com.lucasmoraist.task_list.model.Task;
 import com.lucasmoraist.task_list.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,8 +35,8 @@ public class ListTaskController {
             schema = @Schema(implementation = Task.class)
     ))
     @GetMapping
-    public ResponseEntity<Page<EntityModel<Task>>> listTask(@RequestParam(required = false) String title, @PageableDefault(size = 5) Pageable pageable){
-        return ResponseEntity.ok(this.service.listTask(title, pageable));
+    public ResponseEntity<Page<EntityModel<Task>>> listTask(@RequestParam(required = false) StatusType status, @PageableDefault(size = 5) Pageable pageable){
+        return ResponseEntity.ok(this.service.listTask(status, pageable));
     }
 
 }
