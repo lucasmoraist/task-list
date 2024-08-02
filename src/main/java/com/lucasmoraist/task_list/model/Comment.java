@@ -1,7 +1,9 @@
 package com.lucasmoraist.task_list.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "t_comment")
 @Entity(name = "t_comment")
+@Builder
 public class Comment {
 
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,5 +22,6 @@ public class Comment {
 
         @ManyToOne
         @JoinColumn(name = "task_id")
+        @JsonBackReference
         private Task task;
 }

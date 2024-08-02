@@ -1,5 +1,6 @@
 package com.lucasmoraist.task_list.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lucasmoraist.task_list.controller.task.ListTaskController;
 import com.lucasmoraist.task_list.model.dto.TaskRequest;
 import jakarta.persistence.*;
@@ -33,6 +34,7 @@ public class Task {
     private StatusType status;
 
     @OneToMany(mappedBy = "task")
+    @JsonManagedReference
     private List<Comment> comment;
 
     @CreationTimestamp
