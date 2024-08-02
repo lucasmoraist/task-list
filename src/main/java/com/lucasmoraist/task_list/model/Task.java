@@ -1,6 +1,5 @@
 package com.lucasmoraist.task_list.model;
 
-import com.lucasmoraist.task_list.controller.task.GetTaskController;
 import com.lucasmoraist.task_list.controller.task.ListTaskController;
 import com.lucasmoraist.task_list.model.dto.TaskRequest;
 import jakarta.persistence.*;

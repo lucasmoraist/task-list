@@ -1,6 +1,5 @@
 package com.lucasmoraist.task_list.controller.task;
 
-import com.lucasmoraist.task_list.exceptions.ExceptionDTO;
 import com.lucasmoraist.task_list.exceptions.TaskNotFound;
 import com.lucasmoraist.task_list.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;

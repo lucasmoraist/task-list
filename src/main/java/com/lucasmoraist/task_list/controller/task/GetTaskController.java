@@ -1,6 +1,5 @@
 package com.lucasmoraist.task_list.controller.task;
 
-import com.lucasmoraist.task_list.exceptions.ExceptionDTO;
 import com.lucasmoraist.task_list.exceptions.TaskNotFound;
 import com.lucasmoraist.task_list.model.Task;
 import com.lucasmoraist.task_list.service.TaskService;
