@@ -19,9 +19,12 @@ public class EmailService {
     @Value("${spring.mail.username}")
     private String from;
 
+    @Value("${mail.to}")
+    private String to;
+
     public void sendEmailToCreatingTask(String title, String description, StatusType status, LocalDateTime date) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo("to");
+        message.setTo(to);
         message.setSubject("Nova tarefa criada!");
         message.setText(
                 """
@@ -47,7 +50,7 @@ public class EmailService {
 
     public void sendEmailToUpdatingTask(String title, String description, StatusType status, LocalDateTime date) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo("to");
+        message.setTo(to);
         message.setSubject("Tarefa atualizada!");
         message.setText(
                 """
@@ -73,7 +76,7 @@ public class EmailService {
 
     public void sendEmailToDeletingTask(String title, String description, StatusType status, LocalDateTime date) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo("to");
+        message.setTo(to);
         message.setSubject("Tarefa Excluída!");
         message.setText(
                 """
