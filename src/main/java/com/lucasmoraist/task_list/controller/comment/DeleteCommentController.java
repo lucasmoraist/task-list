@@ -1,7 +1,6 @@
 package com.lucasmoraist.task_list.controller.comment;
 
 import com.lucasmoraist.task_list.exceptions.CommentsNotFound;
-import com.lucasmoraist.task_list.model.Comment;
 import com.lucasmoraist.task_list.service.CommentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
