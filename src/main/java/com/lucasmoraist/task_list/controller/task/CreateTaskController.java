@@ -46,7 +46,7 @@ public class CreateTaskController {
     @PostMapping
     public ResponseEntity<TaskResponse> create(@Valid @RequestBody TaskRequest request){
         log.info("Creating task with data: {}", request);
-        TaskResponse response = this.service.create(request);
+        TaskResponse response = this.service.createTask(request);
         log.info("Task created successfully: {}", response);
         return ResponseEntity.ok().body(response);
     }
