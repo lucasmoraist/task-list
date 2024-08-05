@@ -4,6 +4,7 @@ import com.lucasmoraist.task_list.exceptions.*;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailAuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -45,6 +46,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 new ExceptionDTO(e.getMessage(), HttpStatus.BAD_REQUEST)
         );
     }
+
+    @ExceptionHandler(MailAuthenticationException.class)
+    protected ResponseEntity<ExceptionDTO> sendMailExeption(SendMailException e){
+        return ResponseEntity.badRequest().body(
+                new ExceptionDTO(e.getMessage(), HttpStatus.BAD_REQUEST)
+        );
+    }
+
 
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ExceptionDTO> genericException(Exception e){
