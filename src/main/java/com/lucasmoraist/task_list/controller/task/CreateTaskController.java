@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/tasks")
 @Tag(name = "Task")
+@Slf4j
 public class CreateTaskController {
 
     @Autowired
@@ -43,7 +45,9 @@ public class CreateTaskController {
     })
     @PostMapping
     public ResponseEntity<TaskResponse> create(@Valid @RequestBody TaskRequest request){
+        log.info("Creating task with data: {}", request);
         TaskResponse response = this.service.create(request);
+        log.info("Task created successfully: {}", response);
         return ResponseEntity.ok().body(response);
     }
 

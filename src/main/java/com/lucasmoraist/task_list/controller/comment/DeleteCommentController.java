@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,7 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/comments")
 @Tag(name = "Comment")
+@Slf4j
 public class DeleteCommentController {
+
+    @Autowired
+    private CommentService service;
 
     @Operation(summary = "Delete a comment", description = "Delete a comment")
     @Parameter(name = "commentId", description = "The comment id")
@@ -34,11 +39,10 @@ public class DeleteCommentController {
     })
     @DeleteMapping("/{commentId}")
     public ResponseEntity<Void> deleteComment(@PathVariable Long commentId){
+        log.info("Deleting comment with id: {}", commentId);
         this.service.deleteComment(commentId);
+        log.info("Comment deleted");
         return ResponseEntity.noContent().build();
     }
-
-    @Autowired
-    private CommentService service;
 
 }

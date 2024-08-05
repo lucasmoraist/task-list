@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/tasks")
 @Tag(name = "Task")
+@Slf4j
 public class CreateCommentController {
 
     @Autowired
@@ -48,7 +50,10 @@ public class CreateCommentController {
     })
     @PostMapping("/{taskId}/comments")
     public ResponseEntity<CommentResponse> createComment(@PathVariable Long taskId, @Valid @RequestBody CommentRequest request) {
+        log.info("Creating comment for task with ID: {}", taskId);
+        log.info("Request: {}", request);
         CommentResponse comment = this.service.create(taskId, request);
+        log.info("Comment created: {}", comment);
         return ResponseEntity.ok().body(comment);
     }
 

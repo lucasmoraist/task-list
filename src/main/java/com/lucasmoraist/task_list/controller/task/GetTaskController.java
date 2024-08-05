@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/tasks")
 @Tag(name = "Task")
+@Slf4j
 public class GetTaskController {
 
     @Autowired
@@ -39,7 +41,10 @@ public class GetTaskController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<Task> getTask(@PathVariable Long id){
-        return ResponseEntity.ok(this.service.findTask(id));
+        log.info("Getting task with id {}", id);
+        Task task = this.service.findTask(id);
+        log.info("Task retrieved successfully: {}", task);
+        return ResponseEntity.ok().body(task);
     }
 
 }

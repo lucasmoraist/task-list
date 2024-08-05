@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/tasks")
 @Tag(name = "Task")
+@Slf4j
 public class UpdateStatusTaskController {
 
     @Autowired
@@ -47,7 +49,10 @@ public class UpdateStatusTaskController {
     })
     @PatchMapping("status/{id}")
     public ResponseEntity<TaskResponse> updateTitle(@PathVariable Long id, @Valid @RequestBody Task task){
+        log.info("Getting task by id: {}", id);
+        log.info("Request: {}", task);
         TaskResponse response = this.service.updateStatusTask(id, task);
+        log.info("Response: {}", response);
         return ResponseEntity.ok().body(response);
     }
 

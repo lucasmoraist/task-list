@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/tasks")
 @Tag(name = "Task")
+@Slf4j
 public class DeleteTaskController {
 
     @Autowired
@@ -35,7 +37,9 @@ public class DeleteTaskController {
     })
     @DeleteMapping("{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
+        log.info("Deleting task with id {}", id);
         this.service.deleteTask(id);
+        log.info("Task with id {} deleted", id);
         return ResponseEntity.noContent().build();
     }
 

@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/comments")
 @Tag(name = "Comment")
+@Slf4j
 public class UpdateCommentController {
 
     @Autowired
@@ -47,7 +49,10 @@ public class UpdateCommentController {
     })
     @PutMapping("{commentId}")
     public ResponseEntity<CommentResponse> updateComment(@PathVariable Long commentId, @Valid @RequestBody CommentRequest request) {
+        log.info("Updating comment with id: {}", commentId);
+        log.info("Request: {}", request);
         CommentResponse response = this.service.updateComment(commentId, request);
+        log.info("Comment updated: {}", response);
         return ResponseEntity.ok().body(response);
     }
 
