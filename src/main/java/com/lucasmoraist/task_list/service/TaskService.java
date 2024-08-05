@@ -9,6 +9,7 @@ import com.lucasmoraist.task_list.model.dto.TaskRequest;
 import com.lucasmoraist.task_list.repository.TaskRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
+@CacheConfig(cacheNames = {"tasks"})
 public class TaskService {
 
     private static final Logger logger = LoggerFactory.getLogger(TaskService.class);
@@ -29,23 +31,14 @@ public class TaskService {
         this.repository = repository;
     }
 
-    public TaskResponse create(TaskRequest request) {
-        logger.info("Creating new task with title: {}", request.title());
-        Task task = new Task(request);
-        this.repository.save(task);
-
-        logger.info("Sending email for task creation: {}", task.getTitle());
-
-        try {
-            this.emailService.sendEmailToCreatingTask(task.getTitle(), task.getDescription(), task.getStatus(), task.getCreatedAt());
-        } catch (MailAuthenticationException e) {
-            logger.error("Error to sending email: {}", e.getMessage());
-            throw new SendMailException();
-        }
-
+    public TaskResponse createTask(TaskRequest request) {
+        Task task = this.create(request);
         return new TaskResponse(task.getId());
     }
 
+    @Caching(
+            cacheable = @Cacheable(value = "tasks", key = "#status + '-' + #pageable.pageNumber + '-' + #pageable.pageSize")
+    )
     public Page<EntityModel<Task>> listTask(StatusType status, Pageable pageable) {
         logger.info("Listing tasks with status: {}", status);
         Page<Task> tasks = (status == null) ?
@@ -55,8 +48,9 @@ public class TaskService {
         return tasks.map(Task::toEntityModel);
     }
 
+    @Cacheable(value = "tasks", key = "#id")
     public Task findTask(Long id) {
-        logger.info("Finding task with ID: {}", id);
+        logger.info("Finding task with ID: {} from database", id);
         return this.repository.findById(id)
                 .orElseThrow(() -> {
                     logger.error("Task with ID: {} not found", id);
@@ -64,6 +58,9 @@ public class TaskService {
                 });
     }
 
+    @Caching(
+            put = @CachePut(value = "tasks", key = "#id")
+    )
     public TaskResponse updateTitleTask(Long id, TaskRequest request) {
         logger.info("Updating title of task with ID: {}", id);
         Task task = this.findTask(id);
@@ -75,6 +72,9 @@ public class TaskService {
         return new TaskResponse(task.getId());
     }
 
+    @Caching(
+            put = @CachePut(value = "tasks", key = "#id")
+    )
     public TaskResponse updateDescriptionTask(Long id, TaskRequest request) {
         logger.info("Updating description of task with ID: {}", id);
         Task task = this.findTask(id);
@@ -86,6 +86,9 @@ public class TaskService {
         return new TaskResponse(task.getId());
     }
 
+    @Caching(
+            put = @CachePut(value = "tasks", key = "#id")
+    )
     public TaskResponse updateStatusTask(Long id, Task task) {
         logger.info("Updating status of task with ID: {}", id);
         Task taskToUpdate = this.findTask(id);
@@ -97,6 +100,9 @@ public class TaskService {
         return new TaskResponse(taskToUpdate.getId());
     }
 
+    @Caching(
+            evict = @CacheEvict(value = "tasks", key = "#id")
+    )
     public void deleteTask(Long id) {
         logger.info("Deleting task with ID: {}", id);
         Task task = this.findTask(id);
@@ -105,4 +111,22 @@ public class TaskService {
         logger.info("Task with ID: {} deleted successfully", id);
     }
 
+    @CachePut(value = "tasks", key = "#result.id")
+    private Task create(TaskRequest request){
+        logger.info("Creating new task with title: {}", request.title());
+        Task task = new Task(request);
+        this.repository.save(task);
+
+        logger.info("Sending email for task creation: {}", task.getTitle());
+
+        try {
+            this.emailService.sendEmailToCreatingTask(task.getTitle(), task.getDescription(), task.getStatus(), task.getCreatedAt());
+        } catch (MailAuthenticationException e) {
+            logger.error("Error sending email: {}", e.getMessage());
+            throw new SendMailException();
+        }
+
+        return task;
+    }
 }
+
