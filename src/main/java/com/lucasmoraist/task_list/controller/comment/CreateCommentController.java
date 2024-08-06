@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/tasks")
-@Tag(name = "Task")
+@Tag(name = "Comment")
 @Slf4j
 public class CreateCommentController {
 
