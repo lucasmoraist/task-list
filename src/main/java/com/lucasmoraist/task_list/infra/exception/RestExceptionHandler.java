@@ -6,6 +6,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailAuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -59,6 +60,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("MailAuthenticationException: {}", e.getMessage(), e);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 new ExceptionDTO(e.getMessage(), HttpStatus.BAD_REQUEST)
+        );
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    protected ResponseEntity<ExceptionDTO> usernameNotFoundException(UsernameNotFoundException e) {
+        log.error("UsernameNotFoundException: {}", e.getMessage(), e);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new ExceptionDTO(e.getMessage(), HttpStatus.NOT_FOUND)
         );
     }
 
