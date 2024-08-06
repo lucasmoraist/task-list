@@ -13,6 +13,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service class for Comment entity.
+ * This class is responsible for handling the business logic of the application.
+ * It is responsible for creating, updating, listing and deleting comments.
+ *
+ * @author lucasmoraist
+ */
 @Service
 public class CommentService {
 
@@ -23,7 +30,13 @@ public class CommentService {
     @Autowired
     private TaskService taskService;
 
-
+    /**
+     * Creates a new comment for a task.
+     *
+     * @param taskId  ID of the task the comment is related to.
+     * @param request CommentRequest object containing the comment information.
+     * @return CommentResponse object containing the ID of the created comment.
+     */
     public CommentResponse create(Long taskId, CommentRequest request) {
         logger.info("Creating comment for task ID: {}", taskId);
 
@@ -40,6 +53,11 @@ public class CommentService {
         return new CommentResponse(comment.getId());
     }
 
+    /**
+     * Lists all comments in the database.
+     *
+     * @return List of all comments.
+     */
     public List<Comment> listComments() {
         logger.info("Listing all comments");
 
@@ -50,6 +68,12 @@ public class CommentService {
         return comments;
     }
 
+    /**
+     * Finds a comment by its ID.
+     *
+     * @param commentId ID of the comment to be found.
+     * @return Comment object with the specified ID.
+     */
     public Comment findComment(Long commentId) {
         logger.info("Finding comment with ID: {}", commentId);
 
@@ -64,6 +88,13 @@ public class CommentService {
         return comment;
     }
 
+    /**
+     * Updates a comment with the specified ID.
+     *
+     * @param commentId ID of the comment to be updated.
+     * @param request   CommentRequest object containing the new comment information.
+     * @return CommentResponse object containing the ID of the updated comment.
+     */
     public CommentResponse updateComment(Long commentId, CommentRequest request) {
         logger.info("Updating comment with ID: {}", commentId);
 
@@ -76,6 +107,11 @@ public class CommentService {
         return new CommentResponse(comment.getId());
     }
 
+    /**
+     * Deletes a comment with the specified ID.
+     *
+     * @param commentId ID of the comment to be deleted.
+     */
     public void deleteComment(Long commentId) {
         logger.info("Deleting comment with ID: {}", commentId);
 
