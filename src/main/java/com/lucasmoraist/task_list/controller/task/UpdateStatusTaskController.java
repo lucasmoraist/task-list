@@ -2,6 +2,7 @@ package com.lucasmoraist.task_list.controller.task;
 
 import com.lucasmoraist.task_list.exceptions.TaskNotFound;
 import com.lucasmoraist.task_list.model.Task;
+import com.lucasmoraist.task_list.model.dto.TaskRequest;
 import com.lucasmoraist.task_list.model.dto.TaskResponse;
 import com.lucasmoraist.task_list.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,10 +49,10 @@ public class UpdateStatusTaskController {
             ))
     })
     @PatchMapping("status/{id}")
-    public ResponseEntity<TaskResponse> updateTitle(@PathVariable Long id, @Valid @RequestBody Task task){
+    public ResponseEntity<TaskResponse> updateTitle(@PathVariable Long id, @RequestBody TaskRequest request) {
         log.info("Getting task by id: {}", id);
-        log.info("Request: {}", task);
-        TaskResponse response = this.service.updateStatusTask(id, task);
+        log.info("Request: {}", request);
+        TaskResponse response = this.service.updateStatusTask(id, request);
         log.info("Response: {}", response);
         return ResponseEntity.ok().body(response);
     }

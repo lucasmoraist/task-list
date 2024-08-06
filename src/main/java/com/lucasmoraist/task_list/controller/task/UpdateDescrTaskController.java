@@ -48,7 +48,7 @@ public class UpdateDescrTaskController {
             ))
     })
     @PatchMapping("description/{id}")
-    public ResponseEntity<TaskResponse> updateDescription(@PathVariable Long id, @Valid @RequestBody TaskRequest request) {
+    public ResponseEntity<TaskResponse> updateDescription(@PathVariable Long id, @RequestBody TaskRequest request) {
         log.info("Getting task with id {}", id);
         log.info("Request: {}", request);
         TaskResponse response = this.service.updateDescriptionTask(id, request);

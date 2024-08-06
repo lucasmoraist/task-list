@@ -48,7 +48,7 @@ public class UpdateTitleTaskController {
             ))
     })
     @PatchMapping("title/{id}")
-    public ResponseEntity<TaskResponse> updateTitle(@PathVariable Long id, @Valid @RequestBody TaskRequest request){
+    public ResponseEntity<TaskResponse> updateTitle(@PathVariable Long id, @RequestBody TaskRequest request) {
         log.info("Getting task by id: {}", id);
         log.info("Request: {}", request);
         TaskResponse response = this.service.updateTitleTask(id, request);
