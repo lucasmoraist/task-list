@@ -1,6 +1,6 @@
 package com.lucasmoraist.task_list.service;
 
-import com.lucasmoraist.task_list.model.StatusType;
+import com.lucasmoraist.task_list.model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -22,7 +22,21 @@ public class EmailService {
     @Value("${mail.to}")
     private String to;
 
-    public void sendEmailToCreatingTask(String title, String description, StatusType status, LocalDateTime date) {
+    public void sendEmail(String sendCase, Task task, LocalDateTime date){
+        switch (sendCase){
+            case "creating":
+                this.sendEmailToCreatingTask(task, date);
+                break;
+            case "updating":
+                this.sendEmailToUpdatingTask(task, date);
+                break;
+            case "deleting":
+                this.sendEmailToDeletingTask(task, date);
+                break;
+        }
+    }
+
+    private void sendEmailToCreatingTask(Task task, LocalDateTime date) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
         message.setSubject("Nova tarefa criada!");
@@ -40,7 +54,7 @@ public class EmailService {
                 
                 Atenciosamente,
                 Equipe de Gerenciamento de Tarefas
-                """.formatted(title, description, status, date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")))
+                """.formatted(task.getTitle(), task.getDescription(), task.getStatus(), date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")))
         );
 
         message.setFrom(from);
@@ -48,7 +62,7 @@ public class EmailService {
         mailSender.send(message);
     }
 
-    public void sendEmailToUpdatingTask(String title, String description, StatusType status, LocalDateTime date) {
+    private void sendEmailToUpdatingTask(Task task, LocalDateTime date) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
         message.setSubject("Tarefa atualizada!");
@@ -66,7 +80,7 @@ public class EmailService {
                 
                 Atenciosamente,
                 Equipe de Gerenciamento de Tarefas
-                """.formatted(title, description, status, date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")))
+                """.formatted(task.getTitle(), task.getDescription(), task.getStatus(), date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")))
         );
 
         message.setFrom(from);
@@ -74,7 +88,7 @@ public class EmailService {
         mailSender.send(message);
     }
 
-    public void sendEmailToDeletingTask(String title, String description, StatusType status, LocalDateTime date) {
+    private void sendEmailToDeletingTask(Task task, LocalDateTime date) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
         message.setSubject("Tarefa Excluída!");
@@ -92,7 +106,7 @@ public class EmailService {
                 
                 Atenciosamente,
                 Equipe de Gerenciamento de Tarefas
-                """.formatted(title, description, status, date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")))
+                """.formatted(task.getTitle(), task.getDescription(), task.getStatus(), date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")))
         );
 
         message.setFrom(from);
