@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.mail.MailAuthenticationException;
 import org.springframework.stereotype.Service;
@@ -37,10 +38,17 @@ public class TaskService {
         return new TaskResponse(task.getId());
     }
 
+    public List<Task> listTaskSortBy(String sortBy, String order) {
+        Sort sort = order.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(Sort.Order.asc(sortBy)) :
+                Sort.by(Sort.Order.desc(sortBy));
+        return this.repository.findAll(sort);
+    }
+
     @Caching(
             cacheable = @Cacheable(value = "tasks", key = "#status + '-' + #pageable.pageNumber + '-' + #pageable.pageSize")
     )
-    public Page<EntityModel<Task>> listTask(StatusType status, Pageable pageable) {
+    public Page<EntityModel<Task>> listTaskPage(StatusType status, Pageable pageable) {
         logger.info("Listing tasks with status: {}", status);
         Page<Task> tasks = (status == null) ?
                 this.repository.findAll(pageable) :
