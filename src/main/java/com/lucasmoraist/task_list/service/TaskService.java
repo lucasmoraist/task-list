@@ -17,6 +17,7 @@ import org.springframework.mail.MailAuthenticationException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @CacheConfig(cacheNames = {"tasks"})
@@ -43,7 +44,7 @@ public class TaskService {
         logger.info("Listing tasks with status: {}", status);
         Page<Task> tasks = (status == null) ?
                 this.repository.findAll(pageable) :
-                this.repository.findByTitleContaining(status, pageable);
+                this.repository.findByStatusContaining(status, pageable);
 
         return tasks.map(Task::toEntityModel);
     }
@@ -56,6 +57,11 @@ public class TaskService {
                     logger.error("Task with ID: {} not found", id);
                     return new TaskNotFound();
                 });
+    }
+
+    public List<Task> findTasksByStatus(StatusType status) {
+        logger.info("Finding tasks with status: {}", status);
+        return this.repository.findTaskByStatus(status);
     }
 
     @Caching(
