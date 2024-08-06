@@ -41,7 +41,7 @@ public class ListTaskController {
         log.info("Listing tasks with status {}", status);
         log.info("Pageable: {}", pageable);
         log.info("List tasks is successfully");
-        return ResponseEntity.ok(this.service.listTask(status, pageable));
+        return ResponseEntity.ok(this.service.listTaskPage(status, pageable));
     }
 
 }
