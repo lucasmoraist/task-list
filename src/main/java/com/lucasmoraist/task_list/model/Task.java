@@ -5,6 +5,7 @@ import com.lucasmoraist.task_list.controller.task.ListTaskController;
 import com.lucasmoraist.task_list.model.dto.TaskRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -22,6 +23,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 @NoArgsConstructor
 @Entity(name = "t_task")
 @Table(name = "t_task")
+@Builder
 public class Task {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
