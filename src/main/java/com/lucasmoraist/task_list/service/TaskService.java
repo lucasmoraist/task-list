@@ -171,18 +171,21 @@ public class TaskService {
                 this.repository.save(task);
 
                 logger.info("Sending email for task title update: {}", task.getTitle());
+                break;
             case "description":
                 logger.info("Updating description of task with ID: {}", task.getId());
                 task.setDescription(request.description());
                 this.repository.save(task);
 
                 logger.info("Sending email for task description update: {}", task.getTitle());
+                break;
             case "status":
                 logger.info("Updating status of task with ID: {}", task.getId());
                 task.setStatus(request.status());
                 this.repository.save(task);
 
                 logger.info("Sending email for task status update: {}", task.getTitle());
+                break;
         }
         this.emailService.sendEmail("updating", task, task.getUpdatedAt());
         return new TaskResponse(task.getId());
