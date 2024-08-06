@@ -18,6 +18,12 @@ import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
+/**
+ * This class represents a task that can be added to a task list.
+ *
+ * @see Comment
+ * @author lucasmoraist
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

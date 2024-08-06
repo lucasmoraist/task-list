@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Controller responsible for listing all comments.
+ *
+ * @author lucasmoraist
+ */
 @RestController
 @RequestMapping("/comments")
 @Tag(name = "Comment")
@@ -23,6 +28,10 @@ public class ListCommentController {
     @Autowired
     private CommentService commentService;
 
+    /**
+     * List all comments.
+     * @return The list of comments
+     */
     @Operation(summary = "List all comments", description = "List all comments")
     @ApiResponse(responseCode = "200", description = "List of comments")
     @GetMapping

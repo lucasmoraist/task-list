@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
+/**
+ * Repository to manage persistence operations for the entity {@link Task}.
+ *
+ * @author lucasmoraist
+ */
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
     Page<Task> findByStatusContaining(StatusType status, Pageable pageable);

@@ -7,6 +7,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * This class represents a comment that can be added to a task.
+ *
+ * @see Task
+ * @author lucasmoraist
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

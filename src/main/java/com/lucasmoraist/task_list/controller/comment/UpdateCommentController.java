@@ -17,6 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller responsible for updating a comment.
+ *
+ * @author lucasmoraist
+ */
 @RestController
 @RequestMapping("/comments")
 @Tag(name = "Comment")
@@ -26,6 +31,14 @@ public class UpdateCommentController {
     @Autowired
     private CommentService service;
 
+    /**
+     * Update a comment.
+     * @param commentId The comment id
+     * @param request The comment request
+     * @return The updated comment
+     * @throws CommentsNotFound If the comment is not found
+     * @throws IllegalArgumentException If the request is invalid
+     */
     @Operation(summary = "Update a comment", description = "Update a comment by its id")
     @Parameter(name = "commentId", description = "The id of the comment to be updated")
     @ApiResponses(value = {

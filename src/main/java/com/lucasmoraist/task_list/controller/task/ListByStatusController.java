@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Controller responsible for listing tasks by status
+ *
+ * @author lucasmoraist
+ */
 @RestController
 @RequestMapping("/tasks")
 @Tag(name = "Task")
@@ -26,6 +31,11 @@ public class ListByStatusController {
     @Autowired
     private TaskService service;
 
+    /**
+     * List tasks by status
+     * @param status Status of the tasks to be listed
+     * @return List of tasks with the given status
+     */
     @Operation(summary = "List tasks by status", description = "List all tasks with the given status")
     @ApiResponse(responseCode = "200", description = "Tasks found", content = @Content(
             mediaType = "application/json",

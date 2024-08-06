@@ -88,6 +88,7 @@ public class TaskService {
      *
      * @param id ID of the task to be found.
      * @return Task object with the specified ID.
+     * @throws TaskNotFound if the task with the specified ID is not found.
      */
     @Cacheable(value = "tasks", key = "#id")
     public Task findTask(Long id) {
@@ -116,6 +117,7 @@ public class TaskService {
      * @param id      ID of the task to be updated.
      * @param request TaskRequest object containing the new title.
      * @return TaskResponse object containing the ID of the updated task.
+     * @throws TaskNotFound if the task with the specified ID is not found.
      */
     @CachePut(value = "tasks", key = "#id")
     public TaskResponse updateTitleTask(Long id, TaskRequest request) {
@@ -129,6 +131,7 @@ public class TaskService {
      * @param id      ID of the task to be updated.
      * @param request TaskRequest object containing the new description.
      * @return TaskResponse object containing the ID of the updated task.
+     * @throws TaskNotFound if the task with the specified ID is not found.
      */
     @CachePut(value = "tasks", key = "#id")
     public TaskResponse updateDescriptionTask(Long id, TaskRequest request) {
@@ -142,6 +145,7 @@ public class TaskService {
      * @param id      ID of the task to be updated.
      * @param request TaskRequest object containing the new status.
      * @return TaskResponse object containing the ID of the updated task.
+     * @throws TaskNotFound if the task with the specified ID is not found.
      */
     @CachePut(value = "tasks", key = "#id")
     public TaskResponse updateStatusTask(Long id, TaskRequest request) {
@@ -153,6 +157,7 @@ public class TaskService {
      * Deletes a task from the database.
      *
      * @param id ID of the task to be deleted.
+     * @throws TaskNotFound if the task with the specified ID is not found.
      */
     @CacheEvict(value = "tasks", key = "#id")
     public void deleteTask(Long id) {

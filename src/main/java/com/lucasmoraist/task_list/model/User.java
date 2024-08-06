@@ -4,6 +4,11 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
 
+/**
+ * This class represents a user that can be registered in the application.
+ *
+ * @author lucasmoraist
+ */
 @Data
 @Entity(name = "t_users")
 @Table(name = "t_users")

@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller responsible for getting a comment.
+ *
+ * @author lucasmoraist
+ */
 @RestController
 @RequestMapping("/comments")
 @Tag(name = "Comment")
@@ -27,6 +32,12 @@ public class GetCommentController {
     @Autowired
     private CommentService service;
 
+    /**
+     * Get a comment by its id.
+     * @param commentId The comment id
+     * @return The comment
+     * @throws CommentsNotFound If the comment is not found
+     */
     @Operation(summary = "List all comments", description = "List all comments")
     @Parameter(name = "commentId", description = "The comment id")
     @ApiResponses(value = {

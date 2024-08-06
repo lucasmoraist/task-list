@@ -21,6 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller responsible for listing tasks
+ *
+ * @author lucasmoraist
+ */
 @RestController
 @RequestMapping("/tasks")
 @Tag(name = "Task")
@@ -30,6 +35,12 @@ public class ListTaskController {
     @Autowired
     private TaskService service;
 
+    /**
+     * List tasks
+     * @param status Status of the tasks to be listed
+     * @param pageable Pageable object to control pagination
+     * @return List of tasks with the given status
+     */
     @Operation(summary = "List tasks", description = "List all tasks or filter by title")
     @Parameter(name = "title", description = "The title to filter tasks")
     @ApiResponse(responseCode = "200", description = "Tasks listed successfully", content = @Content(

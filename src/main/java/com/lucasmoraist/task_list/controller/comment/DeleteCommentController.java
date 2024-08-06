@@ -17,6 +17,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller responsible for deleting a comment.
+ *
+ * @author lucasmoraist
+ */
 @RestController
 @RequestMapping("/comments")
 @Tag(name = "Comment")
@@ -26,6 +31,12 @@ public class DeleteCommentController {
     @Autowired
     private CommentService service;
 
+    /**
+     * Delete a comment.
+     * @param commentId The comment id
+     * @return No content
+     * @throws CommentsNotFound If the comment is not found
+     */
     @Operation(summary = "Delete a comment", description = "Delete a comment")
     @Parameter(name = "commentId", description = "The comment id")
     @ApiResponses(value = {

@@ -17,6 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller responsible for creating a comment for a task.
+ *
+ * @author lucasmoraist
+ */
 @RestController
 @RequestMapping("/tasks")
 @Tag(name = "Comment")
@@ -26,6 +31,14 @@ public class CreateCommentController {
     @Autowired
     private CommentService service;
 
+    /**
+     * Create a comment for a task.
+     * @param taskId The task id
+     * @param request The comment request
+     * @return The created comment
+     * @throws TaskNotFound If the task is not found
+     * @throws IllegalArgumentException If the request is invalid
+     */
     @Operation(summary = "Create a comment for a task", description = "Create a comment for a task")
     @Parameter(name = "taskId", description = "The task id")
     @ApiResponses(value = {

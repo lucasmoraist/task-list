@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller to manage the retrieval of tasks.
+ *
+ * @author lucasmoraist
+ */
 @RestController
 @RequestMapping("/tasks")
 @Tag(name = "Task")
@@ -27,6 +32,12 @@ public class GetTaskController {
     @Autowired
     private TaskService service;
 
+    /**
+     * Get a task with the given id.
+     * @param id The id of the task to be retrieved
+     * @return The task with the given id
+     * @throws TaskNotFound If the task with the given id is not found
+     */
     @Operation(summary = "Get a task", description = "Get a task with the given id")
     @Parameter(name = "id", description = "The id of the task to be retrieved")
     @ApiResponses(value = {

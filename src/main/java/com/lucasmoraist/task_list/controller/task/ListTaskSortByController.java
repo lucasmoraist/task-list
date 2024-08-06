@@ -19,6 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Controller responsible for listing tasks sorted by
+ *
+ * @author lucasmoraist
+ */
 @RestController
 @RequestMapping("/tasks")
 @Tag(name = "Task")
@@ -28,6 +33,12 @@ public class ListTaskSortByController {
     @Autowired
     private TaskService service;
 
+    /**
+     * List tasks sorted by
+     * @param sortBy Field to sort by
+     * @param order Order of the sorting
+     * @return List of tasks sorted by the given field
+     */
     @Operation(summary = "List tasks sorted by", description = "List all tasks sorted by the given field")
     @ApiResponse(responseCode = "200", description = "Tasks found", content = @Content(
             mediaType = "application/json",

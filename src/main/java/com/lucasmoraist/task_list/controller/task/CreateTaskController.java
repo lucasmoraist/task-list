@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller to manage the creation of tasks.
+ *
+ * @author lucasmoraist
+ */
 @RestController
 @RequestMapping("/tasks")
 @Tag(name = "Task")
@@ -27,6 +32,12 @@ public class CreateTaskController {
     @Autowired
     private TaskService service;
 
+    /**
+     * Create a task with the given data.
+     * @param request The data to create the task
+     * @return The id of the created task
+     * @throws IllegalArgumentException If the data is invalid
+     */
     @Operation(summary = "Create a task",description = "Create a task with the given data")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Task created successfully", content = @Content(

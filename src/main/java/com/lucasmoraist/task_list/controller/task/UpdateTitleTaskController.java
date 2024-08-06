@@ -11,12 +11,16 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller responsible for updating the title of a task
+ *
+ * @author lucasmoraist
+ */
 @RestController
 @RequestMapping("/tasks")
 @Tag(name = "Task")
@@ -26,6 +30,14 @@ public class UpdateTitleTaskController {
     @Autowired
     private TaskService service;
 
+    /**
+     * Update the title of a task by its id
+     * @param id Task id
+     * @param request TaskRequest object with the new title
+     * @return TaskResponse object with the updated task
+     * @throws TaskNotFound Task not found
+     * @throws IllegalArgumentException Bad request
+     */
     @Operation(summary = "Update task title", description = "Update the title of a task by its id")
     @Parameter(name = "id", description = "Task id", required = true)
     @ApiResponses(value = {
