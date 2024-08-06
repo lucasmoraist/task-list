@@ -32,7 +32,7 @@ public class ListByStatusController {
             schema = @Schema(implementation = Task.class)
     ))
     @Parameter(name = "status", description = "Status of the tasks to be listed", required = true)
-    @GetMapping("filter")
+    @GetMapping("status")
     public ResponseEntity<List<Task>> listByStatus(@RequestParam(name = "status") StatusType status) {
         List<Task> tasks = this.service.findTasksByStatus(status);
         return ResponseEntity.ok().body(tasks);
