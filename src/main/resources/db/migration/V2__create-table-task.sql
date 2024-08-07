@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS tasks (
+CREATE TABLE IF NOT EXISTS t_tasks (
     id serial PRIMARY KEY,
     title VARCHAR(80) NOT NULL,
     description VARCHAR(1000) NOT NULL,

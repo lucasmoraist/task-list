@@ -1,6 +1,6 @@
-CREATE TABLE IF NOT EXISTS comments (
+CREATE TABLE IF NOT EXISTS t_comments (
     id serial PRIMARY KEY,
     text VARCHAR(255) NOT NULL,
     task_id BIGINT,
-    CONSTRAINT fk_task FOREIGN KEY (task_id) REFERENCES tasks(id)
+    CONSTRAINT fk_task FOREIGN KEY (task_id) REFERENCES t_tasks(id)
 );
