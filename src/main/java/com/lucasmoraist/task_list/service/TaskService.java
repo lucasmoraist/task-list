@@ -9,7 +9,6 @@ import com.lucasmoraist.task_list.model.dto.TaskRequest;
 import com.lucasmoraist.task_list.repository.TaskRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -29,7 +28,6 @@ import java.util.List;
  * @author lucasmoraist
  */
 @Service
-@CacheConfig(cacheNames = {"tasks"})
 public class TaskService {
 
     private static final Logger logger = LoggerFactory.getLogger(TaskService.class);
@@ -73,7 +71,6 @@ public class TaskService {
      * @param pageable Pageable object containing the page number and size.
      * @return Page object containing the tasks with the specified status.
      */
-    @Cacheable(value = "tasks", key = "#status + '-' + #pageable.pageNumber + '-' + #pageable.pageSize")
     public Page<EntityModel<Task>> listTaskPage(StatusType status, Pageable pageable) {
         logger.info("Listing tasks with status: {}", status);
         Page<Task> tasks = (status == null) ?
@@ -90,7 +87,6 @@ public class TaskService {
      * @return Task object with the specified ID.
      * @throws TaskNotFound if the task with the specified ID is not found.
      */
-    @Cacheable(value = "tasks", key = "#id")
     public Task findTask(Long id) {
         logger.info("Finding task with ID: {} from database", id);
         return this.repository.findById(id)
@@ -119,7 +115,6 @@ public class TaskService {
      * @return TaskResponse object containing the ID of the updated task.
      * @throws TaskNotFound if the task with the specified ID is not found.
      */
-    @CachePut(value = "tasks", key = "#id")
     public TaskResponse updateTitleTask(Long id, TaskRequest request) {
         Task task = this.findTask(id);
         return this.update("title", task, request);
@@ -133,7 +128,6 @@ public class TaskService {
      * @return TaskResponse object containing the ID of the updated task.
      * @throws TaskNotFound if the task with the specified ID is not found.
      */
-    @CachePut(value = "tasks", key = "#id")
     public TaskResponse updateDescriptionTask(Long id, TaskRequest request) {
         Task task = this.findTask(id);
         return this.update("description", task, request);
@@ -147,7 +141,6 @@ public class TaskService {
      * @return TaskResponse object containing the ID of the updated task.
      * @throws TaskNotFound if the task with the specified ID is not found.
      */
-    @CachePut(value = "tasks", key = "#id")
     public TaskResponse updateStatusTask(Long id, TaskRequest request) {
         Task task = this.findTask(id);
         return this.update("status", task, request);
@@ -159,7 +152,6 @@ public class TaskService {
      * @param id ID of the task to be deleted.
      * @throws TaskNotFound if the task with the specified ID is not found.
      */
-    @CacheEvict(value = "tasks", key = "#id")
     public void deleteTask(Long id) {
         logger.info("Deleting task with ID: {}", id);
         Task task = this.findTask(id);
@@ -196,7 +188,6 @@ public class TaskService {
         return new TaskResponse(task.getId());
     }
 
-    @CachePut(value = "tasks", key = "#result.id")
     private Task create(TaskRequest request) {
         logger.info("Creating new task with title: {}", request.title());
         Task task = new Task(request);
