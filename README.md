@@ -89,6 +89,46 @@ java -jar target/task-list-0.1.0-SNAPSHOT.jar ^
   --api.security.token.secret=developer
 ````
 
+### Docker
+1. Build da imagem Docker
+````shell
+docker build -t task-list .
+````
+
+2. Execute o container
+
+**Linux**
+````shell
+docker run -d \
+  -e MAIL_USERNAME=seu_email@example.com \
+  -e MAIL_PASSWORD=sua_senha \
+  -e JWT_SECRET=sua_chave_secreta \
+  -e PROFILE=dev \
+  -e DATABASE_HOST=localhost \
+  -e DATABASE_PORT=5432 \
+  -e DATABASE_NAME=meu_banco \
+  -e DATABASE_USER=meu_usuario \
+  -e DATABASE_PASSWORD=minha_senha \
+  -p 8080:8080 \
+  task-list
+````
+
+**Windows**
+````cmd
+docker run -d ^
+  -e MAIL_USERNAME=seu_email@example.com ^
+  -e MAIL_PASSWORD=sua_senha ^
+  -e JWT_SECRET=sua_chave_secreta ^
+  -e PROFILE=dev ^
+  -e DATABASE_HOST=localhost ^
+  -e DATABASE_PORT=5432 ^
+  -e DATABASE_NAME=meu_banco ^
+  -e DATABASE_USER=meu_usuario ^
+  -e DATABASE_PASSWORD=minha_senha ^
+  -p 8080:8080 ^
+  task-list
+````
+
 ## Instruções de Uso
 - Com o projeto em execução, abra sua ferramenta para testes de requisições (Insomnia ou Postman).
 - Importe o arquivo json que está em `./collection` e já será possível realizar os testes.
@@ -98,8 +138,8 @@ Contribuições são bem-vindas! Sinta-se à vontade para enviar pull requests c
 
 ## Contatos
 <a href = "mailto:seu-email@gmail.com">
-  <img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank">
+  <img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank" alt="">
 </a>
 <a href="https://www.linkedin.com/in/seu-linkedin/" target="_blank">
-  <img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank">
+  <img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank" alt="">
 </a>
