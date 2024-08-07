@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Service class for Task entity.
@@ -58,6 +59,11 @@ public class TaskService {
      * @return List of tasks sorted by the specified field and order.
      */
     public List<Task> listTaskSortBy(String sortBy, String order) {
+        if(!Objects.equals(sortBy, "title") && !Objects.equals(sortBy, "status")) {
+            logger.error("Error listing tasks: invalid sortBy field");
+            throw new IllegalArgumentException("Invalid sortBy field");
+        }
+
         Sort sort = order.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
                 Sort.by(Sort.Order.asc(sortBy)) :
                 Sort.by(Sort.Order.desc(sortBy));
@@ -189,6 +195,12 @@ public class TaskService {
     }
 
     private Task create(TaskRequest request) {
+
+        if (request.title().isEmpty()) {
+            logger.error("Error creating task: title cannot be empty");
+            throw new IllegalArgumentException("Title cannot be empty");
+        }
+
         logger.info("Creating new task with title: {}", request.title());
         Task task = new Task(request);
         this.repository.save(task);
