@@ -54,13 +54,39 @@ cd task-list
 ````shell
 docker-compose up -d
 ````
-4. Faça o build da aplicação
+3. Faça o build da aplicação
+
+**Linux**
 ````shell
-mvn clean package
+mvn clean package \ 
+  -Dspring.mail.username=email@example.com \
+  -Dspring.mail.password="passwordExample" \
+  -Dapi.security.token.secret=developer
+````
+
+**Windows**
+````shell
+mvn clean package ^
+  -Dspring.mail.username=email@example.com ^
+  -Dspring.mail.password="passwordExample" ^
+  -Dapi.security.token.secret=developer
 ````
 5. Execute o arquivo jar gerado pelo build
+
+**Linux**
 ````shell
-java -jar target/task-list-0.0.1-SNAPSHOT.jar 
+java -jar target/task-list-0.1.0-SNAPSHOT.jar \
+  --spring.mail.username=email@example.com \
+  --spring.mail.password="passwordExample" \
+  --api.security.token.secret=developer
+````
+
+**Windows**
+````shell
+java -jar target/task-list-0.1.0-SNAPSHOT.jar ^
+  --spring.mail.username=email@example.com ^
+  --spring.mail.password="passwordExample" ^
+  --api.security.token.secret=developer
 ````
 
 ## Instruções de Uso
