@@ -112,6 +112,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
+     * Handles IllegalArgumentException exception.
+     * @param e The exception
+     * @return The response entity
+     */
+    @ExceptionHandler(IllegalArgumentException.class)
+    protected ResponseEntity<ExceptionDTO> illegalArgumentException(IllegalArgumentException e) {
+        log.error("IllegalArgumentException: {}", e.getMessage(), e);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new ExceptionDTO(e.getMessage(), HttpStatus.BAD_REQUEST)
+        );
+    }
+
+    /**
      * Handles Exception generic exception.
      * @param e The exception
      * @return The response entity
