@@ -1,4 +1,4 @@
-package com.lucasmoraist.gateway;
+package com.lucasmoraist.gateway.config.rest;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
