@@ -1,6 +1,0 @@
-CREATE TABLE IF NOT EXISTS t_users (
-    id serial PRIMARY KEY,
-    name VARCHAR(180) NOT NULL,
-    email VARCHAR(180) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL
-);
