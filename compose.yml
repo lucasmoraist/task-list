@@ -1,12 +1,69 @@
 version: '3.8'
 
 services:
-  postgres:
-    container_name: postgres
+  db_task:
+    container_name: db_task
+    image: postgres:16-alpine
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=db_task
+    networks:
+      - pg_network
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  db_comment:
+    container_name: db_comment
+    image: postgres:16-alpine
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=db_comment
+    networks:
+      - pg_network
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  db_user:
+    container_name: db_user
     image: postgres:16-alpine
     ports:
       - 5434:5432
     environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=1234
-      - POSTGRES_DB=bd_task_list
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=db_user
+    networks:
+      - pg_network
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: unless-stopped
+    depends_on:
+      - db_task
+      - db_comment
+      - db_user
+    ports:
+      - 8081:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+
+volumes:
+  pg_data:
+    driver: local
+  pgadmin:
+    driver: local
+
+networks:
+  pg_network:
+    driver: bridge
