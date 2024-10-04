@@ -1,6 +1,7 @@
 package com.lucasmoraist.tasks.domain.dto;
 
 public record CommentDTO(
-        String text
+        String text,
+        Long taskId
 ) {
 }
