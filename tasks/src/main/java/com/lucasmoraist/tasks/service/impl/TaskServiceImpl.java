@@ -10,10 +10,9 @@ import com.lucasmoraist.tasks.service.TaskService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
-import org.modelmapper.ModelMapper;
+
 
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository repository;
     private final CommentClient commentClient;
-    private final ModelMapper modelMapper;
+    private final RabbitTemplate rabbitTemplate;
 
     @Override
     public void createTask(TaskRequest request) {
@@ -69,14 +68,19 @@ public class TaskServiceImpl implements TaskService {
 
     @Transactional
     @Override
-    public void addComment(Long id, CommentDTO comment) {
+    public void addComment(Long id, CommentDTO dto) {
 
-        Long commentId = this.commentClient.createComment(id, comment);
+        CommentDTO comment = new CommentDTO(dto.text(), id);
+
+        this.rabbitTemplate.convertAndSend(
+                "task.ex",
+                "",
+                comment);
 
         Task task = this.findById(id);
         task.getComment().add(Comment.builder()
-                .id(commentId)
                 .text(comment.text())
+                .taskId(id)
                 .build());
 
         this.repository.save(task);
