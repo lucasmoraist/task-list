@@ -1,6 +1,6 @@
 package com.lucasmoraist.comments.service.impl;
 
-import com.lucasmoraist.comments.domain.dto.CommentRequest;
+import com.lucasmoraist.comments.domain.dto.CommentUpdate;
 import com.lucasmoraist.comments.domain.entity.Comment;
 import com.lucasmoraist.comments.repository.CommentRepository;
 import com.lucasmoraist.comments.service.CommentService;
@@ -20,27 +20,13 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional
     @Override
-    public Long create(Long taskId, CommentRequest request) {
-        Comment comment = Comment.builder()
-                .text(request.text())
-                .taskId(taskId)
-                .build();
-
-        this.repository.save(comment);
-        log.info("Comment created: {}", comment);
-
-        return comment.getId();
-    }
-
-    @Transactional
-    @Override
     public List<Comment> listAll() {
         log.info("Listing all comments");
         return this.repository.findAll();
     }
 
     @Override
-    public void update(Long id, CommentRequest request) {
+    public void update(Long id, CommentUpdate request) {
         log.info("Updating comment with id: {}", id);
 
         Comment comment = this.findById(id);

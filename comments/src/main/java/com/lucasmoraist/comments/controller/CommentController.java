@@ -1,9 +1,8 @@
 package com.lucasmoraist.comments.controller;
 
-import com.lucasmoraist.comments.domain.dto.CommentRequest;
+import com.lucasmoraist.comments.domain.dto.CommentUpdate;
 import com.lucasmoraist.comments.domain.entity.Comment;
 import com.lucasmoraist.comments.service.CommentService;
-import com.netflix.discovery.converters.Auto;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,18 +24,9 @@ public class CommentController {
         log.info("Listing all comments");
         return ResponseEntity.ok().body(this.service.listAll());
     }
-    
-    @PostMapping("/{taskId}/comments")
-    public ResponseEntity<Void> createComment(@PathVariable Long taskId, @Valid @RequestBody CommentRequest request) {
-        log.info("Creating comment for task with ID: {}", taskId);
-        log.info("Request: {}", request);
-        this.service.create(taskId, request);
-        log.info("Comment created");
-        return ResponseEntity.ok().build();
-    }
 
     @PutMapping("{commentId}")
-    public ResponseEntity<Void> updateComment(@PathVariable Long commentId, @Valid @RequestBody CommentRequest request) {
+    public ResponseEntity<Void> updateComment(@PathVariable Long commentId, @Valid @RequestBody CommentUpdate request) {
         log.info("Updating comment with id: {}", commentId);
         log.info("Request: {}", request);
         this.service.update(commentId, request);
