@@ -1,6 +1,24 @@
 version: '3.8'
 
 services:
+  rabbitmq1:
+    image: "rabbitmq:3.10-management"
+    container_name: "rabbit1"
+    hostname: "rabbit1"
+    ports:
+      - "8085:15672"
+      - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "123456"
+      RABBITMQ_ERLANG_COOKIE: "secret"
+    networks:
+      - task-list_network
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
+    entrypoint: >
+      sh -c "rabbitmq-plugins enable rabbitmq_shovel rabbitmq_shovel_management && rabbitmq-server"
+
   db_task:
     container_name: db_task
     image: postgres:16-alpine
@@ -11,7 +29,9 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=db_task
     networks:
-      - pg_network
+      - task-list_network
+    volumes:
+      - db_task:/var/lib/postgresql/data
 
   db_comment:
     container_name: db_comment
@@ -23,7 +43,9 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=db_comment
     networks:
-      - pg_network
+      - task-list_network
+    volumes:
+      - db_comment:/var/lib/postgresql/data
 
   db_user:
     container_name: db_user
@@ -35,7 +57,9 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=db_user
     networks:
-      - pg_network
+      - task-list_network
+    volumes:
+      - db_user:/var/lib/postgresql/data
 
   pgadmin:
     image: dpage/pgadmin4:latest
@@ -49,7 +73,23 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: password
+    networks:
+      - task-list_network
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+
+volumes:
+  rabbitmq:
+    driver: local
+  db_task:
+    driver: local
+  db_comment:
+    driver: local
+  db_user:
+    driver: local
+  pgadmin:
+    driver: local
 
 networks:
-  pg_network:
+  task-list_network:
     driver: bridge
